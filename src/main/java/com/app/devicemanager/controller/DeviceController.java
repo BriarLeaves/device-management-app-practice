@@ -1,14 +1,28 @@
 package com.app.devicemanager.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.app.devicemanager.repos.entity.DeviceEntity;
+import com.app.devicemanager.services.DeviceServices;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class DeviceController {
-    @GetMapping("/hello")
-    public String helloWorld(){
-        return "Hello World!";
+
+    private final DeviceServices deviceServices;
+
+    public DeviceController(DeviceServices deviceServices) {
+        this.deviceServices = deviceServices;
+    }
+
+    @GetMapping
+    public List<DeviceEntity> getAllDevices(){
+        return deviceServices.getAllDevices();
+    }
+
+    @PostMapping
+    public List<DeviceEntity> createNewDevice(@RequestBody DeviceEntity deviceEntity){
+        return deviceServices.createNewDevice(deviceEntity);
     }
 }

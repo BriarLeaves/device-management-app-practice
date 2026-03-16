@@ -1,18 +1,23 @@
 package com.app.devicemanager.repos.entity;
 
 import com.app.devicemanager.domain.State;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "devices")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DeviceEntity {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -22,10 +27,10 @@ public class DeviceEntity {
     @Column(nullable = false)
     private String brand;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private State state;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 }

@@ -3,7 +3,6 @@ package com.app.devicemanager.controller;
 import com.app.devicemanager.dto.DeviceDTO;
 import com.app.devicemanager.repos.entity.DeviceEntity;
 import com.app.devicemanager.services.DeviceServices;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

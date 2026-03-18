@@ -1,30 +1,43 @@
 package com.app.devicemanager.services;
 
-import com.app.devicemanager.domain.State;
+import com.app.devicemanager.dto.DeviceDTO;
+import com.app.devicemanager.dto.DeviceDTOMapper;
 import com.app.devicemanager.repos.DeviceRepository;
 import com.app.devicemanager.repos.entity.DeviceEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.app.devicemanager.exception.DeviceNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DeviceServices {
 
     private final DeviceRepository deviceRepository;
+    private final DeviceDTOMapper deviceDTOMapper;
 
-    public DeviceServices(DeviceRepository deviceRepository) {
+    public DeviceServices(DeviceRepository deviceRepository, DeviceDTOMapper deviceDTOMapper) {
         this.deviceRepository = deviceRepository;
+        this.deviceDTOMapper = deviceDTOMapper;
     }
 
-    public List<DeviceEntity> getAllDevices(){
+    public List<DeviceDTO> getAllDevices(){
         Sort sort = Sort.by("name").descending();
-        return deviceRepository.findAll(sort);
+        return deviceRepository.findAll(sort)
+                .stream()
+                .map(deviceDTOMapper)
+                .collect(Collectors.toList());
     }
 
-    public List<DeviceEntity> createNewDevice(DeviceEntity deviceEntity) {
+    public List<DeviceDTO> createNewDevice(DeviceEntity deviceEntity) {
         deviceRepository.save(deviceEntity);
         return getAllDevices();
+    }
+
+    public DeviceDTO getDeviceById(String deviceId){
+        return deviceRepository.findDeviceById(deviceId)
+                .map(deviceDTOMapper)
+                .orElseThrow(() -> new DeviceNotFoundException(deviceId));
     }
 }

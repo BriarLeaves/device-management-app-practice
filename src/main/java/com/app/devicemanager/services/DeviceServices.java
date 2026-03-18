@@ -5,6 +5,7 @@ import com.app.devicemanager.dto.DeviceDTOMapper;
 import com.app.devicemanager.repos.DeviceRepository;
 import com.app.devicemanager.repos.entity.DeviceEntity;
 import com.app.devicemanager.exception.DeviceNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class DeviceServices {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<DeviceDTO> createNewDevice(DeviceEntity deviceEntity) {
         deviceRepository.save(deviceEntity);
         return getAllDevices();
@@ -39,5 +41,12 @@ public class DeviceServices {
         return deviceRepository.findDeviceById(deviceId)
                 .map(deviceDTOMapper)
                 .orElseThrow(() -> new DeviceNotFoundException(deviceId));
+    }
+
+    @Transactional
+    public List<DeviceDTO> deleteDeviceById(String deviceId) {
+        deviceRepository.deleteDeviceById(deviceId)
+                .orElseThrow(() -> new DeviceNotFoundException(deviceId));
+        return getAllDevices();
     }
 }

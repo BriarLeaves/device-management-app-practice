@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface DeviceRepository extends JpaRepository<DeviceEntity, Long> {
 
     Optional<DeviceEntity> findDeviceById(String deviceId);
+    Optional<DeviceEntity> deleteDeviceById(String deviceId);
 
 }

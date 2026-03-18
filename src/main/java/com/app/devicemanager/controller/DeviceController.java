@@ -32,4 +32,9 @@ public class DeviceController {
     public ResponseEntity<DeviceDTO> getDeviceById(@RequestParam String id){
         return ResponseEntity.ok(deviceServices.getDeviceById(id));
     }
+
+    @GetMapping("delete")
+    public ResponseEntity<List<DeviceDTO>> deleteDeviceById(@RequestParam String id){
+        return ResponseEntity.ok(deviceServices.deleteDeviceById(id));
+    }
 }

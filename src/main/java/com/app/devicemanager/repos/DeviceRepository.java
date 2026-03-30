@@ -11,6 +11,6 @@ public interface DeviceRepository extends JpaRepository<DeviceEntity, Long> {
 
     Optional<DeviceEntity> findDeviceById(String deviceId);
     List<DeviceEntity> findDevicesByState(State deviceState);
-    Optional<List<DeviceEntity>> findDevicesByBrand(String deviceBrand);
+    List<DeviceEntity> findDevicesByBrand(String deviceBrand);
 
 }

@@ -47,4 +47,9 @@ public class DeviceController {
     public ResponseEntity<List<DeviceDTO>> getDevicesByState(@PathVariable String state){
         return ResponseEntity.ok(deviceServices.getDevicesByState(state));
     }
+
+    @GetMapping("device/brand/{brand}")
+    public ResponseEntity<List<DeviceDTO>> getDevicesByBrand(@PathVariable String brand){
+        return ResponseEntity.ok(deviceServices.getDevicesByBrand(brand));
+    }
 }

@@ -76,10 +76,16 @@ public class DeviceServices {
     }
 
     public List<DeviceDTO> getDevicesByBrand(String deviceBrand){
-        return deviceRepository.findDeviceById(deviceBrand)
-                .stream()
-                .map(deviceDTOMapper)
-                .collect(Collectors.toList());
+        try{
+            return deviceRepository.findDevicesByBrand(deviceBrand)
+                    .stream()
+                    .map(deviceDTOMapper)
+                    .collect(Collectors.toList());
+        }
+        catch (Exception e){
+            log.error("Unable to read Device data from persistence", e);
+            throw new PersistenceException(e);
+        }
     }
 
     public List<DeviceDTO> getDevicesByState(String deviceState) {

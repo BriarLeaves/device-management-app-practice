@@ -33,8 +33,18 @@ public class DeviceController {
         return ResponseEntity.ok(deviceServices.getDeviceById(id));
     }
 
-    @GetMapping("delete")
-    public ResponseEntity<List<DeviceDTO>> deleteDeviceById(@RequestParam String id){
+    @GetMapping("{id}/delete")
+    public ResponseEntity<List<DeviceDTO>> deleteDeviceById(@PathVariable String id){
         return ResponseEntity.ok(deviceServices.deleteDeviceById(id));
+    }
+
+    @PostMapping("{id}/update")
+    public ResponseEntity<List<DeviceDTO>> updateDeviceById(@PathVariable String id, @RequestBody DeviceEntity entityInfo){
+        return ResponseEntity.ok(deviceServices.updateDeviceById(id, entityInfo));
+    }
+
+    @GetMapping("device/{state}")
+    public ResponseEntity<List<DeviceDTO>> getDevicesByState(@PathVariable String state){
+        return ResponseEntity.ok(deviceServices.getDevicesByState(state));
     }
 }

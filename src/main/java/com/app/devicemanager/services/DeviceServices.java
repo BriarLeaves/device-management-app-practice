@@ -7,6 +7,7 @@ import com.app.devicemanager.exception.DeviceInUseException;
 import com.app.devicemanager.repos.DeviceRepository;
 import com.app.devicemanager.repos.entity.DeviceEntity;
 import com.app.devicemanager.exception.DeviceNotFoundException;
+import com.app.devicemanager.repos.entity.mapper.DeviceEntityMapper;
 import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +25,12 @@ public class DeviceServices {
 
     private final DeviceRepository deviceRepository;
     private final DeviceDTOMapper deviceDTOMapper;
+    private final DeviceEntityMapper deviceEntityMapper;
 
-    public DeviceServices(DeviceRepository deviceRepository, DeviceDTOMapper deviceDTOMapper) {
+    public DeviceServices(DeviceRepository deviceRepository, DeviceDTOMapper deviceDTOMapper, DeviceEntityMapper deviceEntityMapper) {
         this.deviceRepository = deviceRepository;
         this.deviceDTOMapper = deviceDTOMapper;
+        this.deviceEntityMapper = deviceEntityMapper;
     }
 
     public List<DeviceDTO> getAllDevices(){
@@ -46,7 +49,7 @@ public class DeviceServices {
 
     public DeviceDTO getDeviceById(String deviceId){
         return deviceRepository.findDeviceById(deviceId)
-                .map(deviceDTOMapper)
+                .map(deviceEntityMapper::toDeviceDTO)
                 .orElseThrow(() -> new DeviceNotFoundException(deviceId));
     }
 
@@ -70,8 +73,7 @@ public class DeviceServices {
     }
 
     public List<DeviceDTO> updateDeviceById(String deviceId, DeviceEntity entityInfo){
-
-
+        
         return getAllDevices();
     }
 
